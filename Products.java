@@ -1,101 +1,117 @@
-import java.util.HashSet;
-import java.util.Random;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package category;
 
-public class Products
-{
+
+import java.util.ArrayList;
+
+
+
+public class Product {
+    private int id;
     private String name;
     private double price;
-    private String category;
-    private int id;
+    private int category_id;
 
-
-    public Products(){} 
-  
-    // To track already generated IDs
-    private static HashSet<Integer> usedIds = new HashSet<>();
-
-    public Products(String name,double price,String category,int id)  
-    {
-       this.category=category;
-       this.price=price;
-       this.name=name;
-       this.id=id;
-
+    public Product() {
     }
 
-    public void setId(int id){
-        if(!usedIds.contains(id)){
-            this.id=id;
-            usedIds.add(id);
-        }
+    public Product(int id, String name, double price, int category_id) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.category_id = category_id;
     }
+    
 
-    public int getId(){
+    public int getId() {
         return id;
     }
- 
-    public String getName()  
-    {
+
+    public int getProduct_id() {
+        return category_id;
+    }
+
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
-        if(name==null ||name.isEmpty())
-        {
-            throw new IllegalArgumentException("Product name can't be empty.");
-        }
-        else
-        {
-            this.name=name;
-        }
-    }
-
-    public double getPrice() 
-    {
+    public double getPrice() {
         return price;
     }
-
-    public void setPrice(double price)  
-    {
-        if(price<0)
-        {
-            throw new IllegalArgumentException("Price cannot be negative.");
-        }
-        else
-        {
-            this.price=price;
-        }
-    } 
-
-    public String getCategory() {
-        return category;
+    
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setCategory(String category)
-    {
-        if(category==null || category.isEmpty())
-        {
-            throw new IllegalArgumentException("Product category cannot be empty");
 
-        }
-        this.category=category;
+    public void setProduct_id(int category_id) {
+        this.category_id = category_id;
+    }
+
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @Override
-    public String toString()
+    public String toString() {
+        return "product:\n" + "id=" + id + " Product=" + name  + " price=" + price + "categoryId=" + category_id +"\n" ;
+    }
+    
+    
+    private static ArrayList<Product>products=new ArrayList<>();
+    static {
+        
+        products.add(new Product(1, "Laptop", 999.99, 1)); // Electronics
+        products.add(new Product(2, "Shirt", 29.99, 2));  // Clothing
+        products.add(new Product(3, "Book", 15.99, 3));   // Books
+    }
+     public void addProducts(Product product)
     {
-        return name + " (" + category + ") - $" + price;
+        products.add(product);
     }
-
-    private static int generateUniqueId() {
-        Random random = new Random();
-        int id;
-        do {
-            id = random.nextInt(10000); // Generate an ID between 0 and 9999
-        } while (usedIds.contains(id)); // Ensure uniqueness
-        usedIds.add(id); // Add to the set of used IDs
-        return id;
+    public void deleteProduct(int id,String name) throws IndexOutOfBoundsException
+    {
+       for(int i=0;i<products.size();i++)
+       {
+           if(products.get(i).getId()==id && products.get(i).getName().equals(name))
+           {
+               products.remove(i);
+               break;
+           }
+       }
     }
-
+    public  Product readProduct(int id,String name) throws ProductnotFound
+    {
+        
+    for(int i=0;i<products.size();i++) {
+        if (products.get(i).getId()==id && products.get(i).getName().equals(name)) {
+            return products.get(i);  
+        }
+        
+            
+    }
+    throw new ProductnotFound("Product with the id "+id+"and name"+name +"Not Found");
+    }
+  public void updateProduct(int id, String newName) {
+        for(int i=0;i<products.size();i++) {
+            if (products.get(i).getId() == id) {
+                products.get(i).setName(newName);
+                break;
+            }
+        }
+    }
+     public void printproducts() {
+        for(int i=0;i<products.size();i++) {
+            System.out.println(products);
+        }
+    }
+    
 }
