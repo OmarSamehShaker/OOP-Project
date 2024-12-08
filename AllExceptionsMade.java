@@ -24,6 +24,12 @@ public class AllExceptionsMade {
             super(message);
         }
     }
+    public static class CategorynotFound extends Exception {
+    public CategorynotFound(String message)
+    {
+    super(message);
+    }
+    }
      
     
 
